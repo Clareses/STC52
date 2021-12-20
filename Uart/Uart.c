@@ -13,15 +13,17 @@
 #define SERIAL_CONTROL_RIGISTER SCON
 #define POWER_CONTROL_RIGISTER PCON
 
-void Uart_Init(){
+void Uart_Init(void){
+	POWER_CONTROL_RIGISTER |= 0x80;
 	SERIAL_CONTROL_RIGISTER = 0x50;
-	AUXR &= 0xBF;		
+	AUXR &= 0xBF;
 	AUXR &= 0xFE;
 	TMOD &= 0x0F;
-	TL1 = 0xE8;
-	TH1 = 0xFF;
-	ET1 = 0;		
-	TR1 = 1;	
+	TMOD |= 0x20;
+	TL1 = 0xFA;	
+	TH1 = 0xFA;	
+	ET1 = 0;
+	TR1 = 1;
 }
 
 void Uart_SendByte(unsigned char byte){
